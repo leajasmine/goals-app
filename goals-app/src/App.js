@@ -1,25 +1,68 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
 
-function App() {
+function GoalForm(props) {
+  const [formData, setFormData] = React.useState({
+    goal: "",
+    date: "",
+  });
+
+
+function changeHandler(e) {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+}
+
+function submitHandler(e) { 
+  e.preventDefault();
+  props.onAdd(formData);
+  setFormData ({ goal: "", date: ""});
+};
+
+return (
+  <>
+  <form onSubmit={submitHandler}>
+    <input
+      type="text"
+      name="goal"
+      value={formData.goal}
+      onChange={changeHandler}
+    />
+    <input
+      type="text"
+      name="date"
+      value={formData.date}
+      onChange={changeHandler}
+    />
+    <button type="submit">Add Goal</button>
+  </form>
+  </>
+);
+}
+
+function ListOfGoals(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ul>
+      {props.goals.map((goal) => (
+        <li key={goal.id}>
+          {goal.goal} - {goal.date}
+        </li>
+      ))}
+    </ul>
   );
 }
 
-export default App;
+export default function App() {
+  <h1>My Goals</h1>
+  const [allGoals, updateAllGoals] = React.useState([]);
+
+  function addGoal(goal) {
+    updateAllGoals([...allGoals, goal]);
+  }
+
+  return (
+    <div>
+      <GoalForm onAdd={addGoal} />
+      <ListOfGoals goals={allGoals} />
+    </div>
+  );
+};
