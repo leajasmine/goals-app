@@ -52,7 +52,6 @@ function ListOfGoals(props) {
 }
 
 export default function App() {
-  <h1>My Goals</h1>
   const [allGoals, updateAllGoals] = React.useState([]);
 
   function addGoal(goal) {
