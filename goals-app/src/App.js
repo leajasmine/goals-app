@@ -4,6 +4,7 @@ import React from "react";
 function GoalForm(props) {
   const [formData, setFormData] = React.useState({
     goal: "",
+    // text? 
     date: "",
   });
 
